@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>Todo List</header>
+    <main>
+      <form name="meu-form" onsubmit="addTask(event)">
+        <label for="title"></label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          placeholder="Informe o título da tarefa"
+        />
+        <label for="description"></label>
+        <textarea
+          type="text"
+          name="description"
+          id="description"
+          placeholder="Informe a descrição da tarefa"
+        ></textarea>
+        <button type="submit">Salvar Tarefa</button>
+      </form>
+
+      <section id="task-list"></section>
+    </main>
+    <footer>
+      <p>&copy; 2024 Todo List</p>
+    </footer>
+    <script src="../../index.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
