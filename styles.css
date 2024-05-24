@@ -42,7 +42,7 @@ main {
   }
 }
 
-main > section {
+main>section {
   padding: 20px;
 }
 
@@ -271,6 +271,7 @@ footer a[href*='tel'] {
 footer a[href]:hover {
   opacity: 0.8;
 }
+
 /* 
 @keyframes fadeIn {
   0% {

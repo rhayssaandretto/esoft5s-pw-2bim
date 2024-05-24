@@ -1,39 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo List</title>
-
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <header>Todo List</header>
-    <main>
-      <form name="meu-form" onsubmit="addTask(event)">
-        <label for="title"></label>
+    <div class="container">
+      <header>
+        <h1>Todo List</h1>
+      </header>
+      <main>
+        <form id="taskForm" onsubmit="addTask(event)">
+          <input
+            type="text"
+            name="title"
+            id="title"
+            required
+            placeholder="Informe o título da tarefa"
+          />
+          <textarea
+            id="description"
+            name="description"
+            required
+            placeholder="Informe a descrição da tarefa"
+          ></textarea>
+          <button type="submit">Salvar Tarefa</button>
+        </form>
+
+        <ul id="taskList"></ul>
+      </main>
+      <footer>&copy; 2024 Todo List</footer>
+    </div>
+
+    <dialog class="dialog">
+      <form id="taskFormEdit" onsubmit="editTask(event)" onreset="resetDialog(event)">
         <input
           type="text"
           name="title"
-          id="title"
+          id="title-edit"
+          required
           placeholder="Informe o título da tarefa"
         />
-        <label for="description"></label>
         <textarea
-          type="text"
+          id="description-edit"
           name="description"
-          id="description"
+          required
           placeholder="Informe a descrição da tarefa"
         ></textarea>
-        <button type="submit">Salvar Tarefa</button>
+        <span>
+          <button type="submit">Editar Tarefa</button>
+          <button type="reset" class="cancel-edit">Cancelar</button>
+        </span>
       </form>
+    </dialog>
 
-      <section id="task-list"></section>
-    </main>
-    <footer>
-      <p>&copy; 2024 Todo List</p>
-    </footer>
-    <script src="../../index.js"></script>
     <script src="./index.js"></script>
+    <script src="../../footer-counter.js"></script>
   </body>
 </html>
