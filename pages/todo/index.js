@@ -1,8 +1,12 @@
 const taskKey = "@tasks";
 
+let selectedTaskId = null;
+
+// Função para adicionar tarefa
 function addTask(event) {
   event.preventDefault(); // Evita o recarregamento da página
   const taskId = new Date().getTime();
+  const taskList = document.querySelector("#taskList");
 
   const form = document.querySelector("#taskForm");
   const formData = new FormData(form);
@@ -10,55 +14,69 @@ function addTask(event) {
   const taskTitle = formData.get("title");
   const taskDescription = formData.get("description");
 
+  const li = document.createElement("li");
+
+  li.id = `id-${taskId}`;
+  li.innerHTML = `
+    <div>
+      <h2>${taskTitle}</h2>
+      <p>${taskDescription}</p>
+    </div>
+    <button title="Editar tarefa" onClick="openEditDialog(${taskId})">✏️</button>
+  `;
+
+  taskList.appendChild(li);
+
+  // Salvar tarefas no localStorage
   const tasks = JSON.parse(localStorage.getItem(taskKey)) || [];
-  tasks.push({ id: taskId, title: taskTitle, description: taskDescription });
+  tasks.push({
+    id: taskId,
+    title: taskTitle,
+    description: taskDescription,
+  });
   localStorage.setItem(taskKey, JSON.stringify(tasks));
 
-  appendTasksLi();
   form.reset();
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+function openEditDialog(taskId) {
   const tasks = JSON.parse(localStorage.getItem(taskKey)) || [];
-  const taskList = document.querySelector("#taskList");
-  taskList.innerHTML = tasks
-    .map(
-      (
-        task
-      ) => `<li id="${task.id}"><h2>${task.title}</h2><p>${task.description}</p>
-    <button class='taskButton' title='Editar tarefa'>✏️</button></li>`
-    )
-    .join("");
-    
-  document.querySelectorAll(".button-edit").forEach((button) => {
-    button.addEventListener("click", () =>
-      openModalEdit(button.parentElement.id)
-    );
-  });
-});
 
-function openModalEdit(id) {
-  const dialog = document.querySelector(".dialog");
+  selectedTaskId = tasks.findIndex((task) => task.id === taskId);
+  const task = tasks[selectedTaskId];
 
-  const tasks = JSON.parse(localStorage.getItem(taskKey)) || [];
-  let task = tasks.find((task) => task.id == id);
+  const dialog = document.querySelector("dialog");
 
-  if (!task) {
-    return;
-  }
+  const editTitle = document.querySelector("#editTaskForm #title");
+  const editDescription = document.querySelector("#editTaskForm #description");
 
-  const titleEdit = document.querySelector("#title-edit");
-  titleEdit.value = task.title;
-  const descriptionEdit = document.querySelector("#description-edit");
-  descriptionEdit.value = task.description;
+  editTitle.value = task.title;
+  editDescription.value = task.description;
 
-  dialog.id = id;
   dialog.showModal();
 }
 
-function resetDialog(event) {
-  event.preventDefault();
-
-  const dialog = document.querySelector(".dialog");
+function closeDialog() {
+  const dialog = document.querySelector("dialog");
   dialog.close();
 }
+
+// Carregar tarefas do localStorage ao recarregar a página
+window.addEventListener("DOMContentLoaded", () => {
+  const tasks = JSON.parse(localStorage.getItem(taskKey)) || [];
+  const taskList = document.querySelector("#taskList");
+
+  taskList.innerHTML = tasks
+    .map(
+      (task) => `
+      <li id='id-${task.id}'>
+        <div>
+          <h2>${task.title}</h2>
+          <p>${task.description}</p>
+        </div>
+        <button title="Editar tarefa" onClick="openEditDialog(${task.id})">✏️</button>
+      </li>
+    `
+    )
+    .join("");
+});
