@@ -12,6 +12,29 @@
         <h1>Todo List</h1>
       </header>
       <main>
+        <dialog>
+          <form id="editTaskForm" onsubmit="editTask(event)">
+            <input
+              type="text"
+              name="title"
+              id="title"
+              required
+              placeholder="Informe o título da tarefa"
+            />
+            <textarea
+              id="description"
+              name="description"
+              required
+              placeholder="Informe a descrição da tarefa"
+            ></textarea>
+            <div>
+              <button type="submit">Editar Tarefa</button>
+              <button type="button" onclick="closeDialog()">Cancelar</button>
+            </div>
+          </form>
+        </dialog>
+
+        <!-- Formulário para adicionar tarefas -->
         <form id="taskForm" onsubmit="addTask(event)">
           <input
             type="text"
@@ -29,32 +52,11 @@
           <button type="submit">Salvar Tarefa</button>
         </form>
 
+        <!-- Lista de tarefas -->
         <ul id="taskList"></ul>
       </main>
       <footer>&copy; 2024 Todo List</footer>
     </div>
-
-    <dialog class="dialog">
-      <form id="taskFormEdit" onsubmit="editTask(event)" onreset="resetDialog(event)">
-        <input
-          type="text"
-          name="title"
-          id="title-edit"
-          required
-          placeholder="Informe o título da tarefa"
-        />
-        <textarea
-          id="description-edit"
-          name="description"
-          required
-          placeholder="Informe a descrição da tarefa"
-        ></textarea>
-        <span>
-          <button type="submit">Editar Tarefa</button>
-          <button type="reset" class="cancel-edit">Cancelar</button>
-        </span>
-      </form>
-    </dialog>
 
     <script src="./index.js"></script>
     <script src="../../footer-counter.js"></script>
