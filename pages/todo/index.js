@@ -23,6 +23,7 @@ function addTask(event) {
       <p>${taskDescription}</p>
     </div>
     <button title="Editar tarefa" onClick="openEditDialog(${taskId})">✏️</button>
+    <button class="remove-task" title="Excluir tarefa" onClick="deleteTask(${taskId})">❌</button>
   `;
 
   taskList.appendChild(li);
@@ -56,6 +57,42 @@ function openEditDialog(taskId) {
   dialog.showModal();
 }
 
+function editTask(event) {
+  event.preventDefault();
+
+  const tasks = JSON.parse(localStorage.getItem(taskKey)) || [];
+
+  const form = document.querySelector("#editTaskForm");
+  const formData = new FormData(form);
+
+  tasks[selectedTaskId] = {
+    ...tasks[selectedTaskId],
+    title: formData.get("title"),
+    description: formData.get("description"),
+  };
+
+  localStorage.setItem(taskKey, JSON.stringify(tasks));
+
+  const li = document.querySelector(`#id-${tasks[selectedTaskId].id}`);
+  li.querySelector("h2").textContent = tasks[selectedTaskId].title;
+  li.querySelector("p").textContent = tasks[selectedTaskId].description;
+
+  closeDialog();
+}
+
+function deleteTask(taskId) {
+  const tasks = JSON.parse(localStorage.getItem(taskKey)) || [];
+  const taskIndex = tasks.findIndex((task) => task.id === taskId);
+
+  tasks.splice(taskIndex, 1);
+  localStorage.setItem(taskKey, JSON.stringify(tasks));
+
+  const li = document.querySelector(`#id-${taskId}`);
+
+  li.remove();
+  closeDialog();
+}
+
 function closeDialog() {
   const dialog = document.querySelector("dialog");
   dialog.close();
@@ -75,6 +112,7 @@ window.addEventListener("DOMContentLoaded", () => {
           <p>${task.description}</p>
         </div>
         <button title="Editar tarefa" onClick="openEditDialog(${task.id})">✏️</button>
+        <button class="remove-task" title="Excluir tarefa" onClick="deleteTask(${task.id})">❌</button>
       </li>
     `
     )

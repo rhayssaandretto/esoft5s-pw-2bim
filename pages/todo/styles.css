@@ -115,6 +115,12 @@ li button {
     justify-content: center;
 }
 
+li .remove-task {
+    position: relative;
+    margin-left: 20px;
+    
+  }
+
 dialog {
     border-radius: 5px;
 }
